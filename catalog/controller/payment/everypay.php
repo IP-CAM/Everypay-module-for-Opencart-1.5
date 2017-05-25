@@ -13,7 +13,11 @@ class ControllerPaymentEverypay extends Controller
 
         $this->model_payment_everypay->updatePaymentTitle($this->session->data['order_id']);
         $order = $this->model_checkout_order->getOrder($this->session->data['order_id']);
-
+        if (defined('HTTPS_SERVER')) {
+            $server_url = HTTPS_SERVER;
+        } else {
+            $server_url = HTTP_SERVER;
+        }
 
 
         $fields = array(
@@ -24,8 +28,8 @@ class ControllerPaymentEverypay extends Controller
             'billing_country' => $order['payment_iso_code_2'],
             'billing_postcode' => $order['payment_postcode'],
             //in case of automatic response, reroute the callback HTTP request to controller
-            'callback_url' => HTTP_SERVER . 'everypay_validate.php',
-            'customer_url' => HTTP_SERVER . 'index.php?route=payment/everypay/process',
+            'callback_url' =>  $server_url . 'everypay_validate.php',
+            'customer_url' =>  $server_url . 'index.php?route=payment/everypay/process',
             'delivery_address' => $order['shipping_address_1'] . $order['shipping_address_2'],
             'delivery_city' => $order['shipping_city'],
             'delivery_country' => $order['shipping_iso_code_2'],

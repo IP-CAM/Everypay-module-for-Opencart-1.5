@@ -3,7 +3,7 @@
 class ControllerPaymentEveryPay extends Controller {
 
     private $error = array();
-    private $version = 'v1.6';
+    private $version = 'v1.6.1';
 
     public function index() {
         $this->language->load('payment/everypay');
